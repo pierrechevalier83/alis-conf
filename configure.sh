@@ -138,23 +138,20 @@ fi
 
 optional_firmware="mkinitcpio-firmware"
 
-if ask "Custom mirror?"; then
-  mirror=$(enter_variable " - Custom mirror")
-  sed -i "s/PACMAN_MIRROR=\".*\"/PACMAN_MIRROR=\"$mirror\"/g" ./alis.conf
-fi
-
-if ask "Optional firmware?"; then
-  sed -i "s/PACKAGES_AUR_CUSTOM=\"\(.*\)\"/PACKAGES_AUR_CUSTOM=\"$optional_firmware \1\"/g" ./alis-packages.conf
-fi
-
 # Wifi network
 wifi_essid=$(enter_variable " - Wifi Network?", $WIFI_ESSID)
+if [ -n "$wifi_essid" ]; then
 sed -i "s/^WIFI_ESSID=\".*\"/WIFI_ESSID=\"$wifi_essid\"/g" ./alis.conf
+fi
 
 # Hostname
 hostname=$(enter_variable " - Hostname?", $HOSTNAME)
+if [ -n "$hostname" ]; then
 sed -i "s/^HOSTNAME=\".*\"/HOSTNAME=\"$hostname\"/g" ./alis.conf
+fi
 
 # Username
 username=$(enter_variable " - Username", $USER_NAME)
+if [ -n "$username" ]; then
 sed -i "s/USER_NAME=\".*\"/USER_NAME=\"$username\"/g" ./alis.conf
+fi
