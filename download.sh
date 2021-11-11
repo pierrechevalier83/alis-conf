@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+# Get alis
+curl -sL https://raw.githubusercontent.com/picodotdev/alis/master/download.sh | bash
+
 GITHUB_USER=pierrechevalier83
 
 # Install wget dependency
