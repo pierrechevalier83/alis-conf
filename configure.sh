@@ -121,6 +121,21 @@ awk -F= '!a[$1]++' alis_custom.conf alis.conf.bak > alis.conf
 mv alis-packages.conf alis-packages.conf.bak
 awk -F= '!a[$1]++' alis_packages_custom.conf alis-packages.conf.bak > alis-packages.conf
 
+if ask "Is this a VM?"; then
+mv alis.conf alis.conf.bak
+awk -F= '!a[$1]++' alis_custom.vm.conf alis.conf.bak > alis.conf
+fi
+
+if ask "Is this the chromebook?"; then
+mv alis.conf alis.conf.bak
+awk -F= '!a[$1]++' alis_custom.chromebook.conf alis.conf.bak > alis.conf
+elif ask "Is this the T14?"; then
+mv alis.conf alis.conf.bak
+awk -F= '!a[$1]++' alis_custom.T14.conf alis.conf.bak > alis.conf
+else
+echo "Unknown machine!"
+fi
+
 optional_firmware="mkinitcpio-firmware"
 
 if ask "Custom mirror?"; then

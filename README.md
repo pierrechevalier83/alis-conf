@@ -5,7 +5,7 @@ Custom installation config for [alis](https://github.com/picodotdev/alis)
 To download, go to the folder where alis is cloned/downloaded to and run
 
 ```
-curl -sL https://git.io/JLAiO | bash
+curl -sL https://raw.githubusercontent.com/pierrechevalier83/alis-conf/main/download.sh | bash
 ```
 
 ## Usage
