@@ -132,6 +132,9 @@ if ask "Optional firmware?"; then
   sed -i "s/PACKAGES_AUR_CUSTOM=\"\(.*\)\"/PACKAGES_AUR_CUSTOM=\"$optional_firmware \1\"/g" ./alis-packages.conf
 fi
 
+# Wifi network
+wifi_essid=$(enter_variable " - Wifi Network?", $WIFI_ESSID)
+sed -i "s/^WIFI_ESSID=\".*\"/WIFI_ESSID=\"$wifi_essid\"/g" ./alis.conf
 
 # Hostname
 hostname=$(enter_variable " - Hostname?", $HOSTNAME)
