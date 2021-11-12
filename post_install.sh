@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
+# enviroment variables
+#USER_NAME=""
+#USER_PASSWORD=""
+
+# global variables (no configuration, don't edit)
+SYSTEM_INSTALLATION="false"
 CONF_FILE="alis.conf"
 
 RED='\033[0;31m'
@@ -12,18 +18,47 @@ function configuration_install() {
     source "$CONF_FILE"
 }
 
+function facts() {
+    print_step "facts()"
+
+    if [ $(whoami) == "root" ]; then
+        SYSTEM_INSTALLATION="true"
+    else
+        SYSTEM_INSTALLATION="false"
+        USER_NAME="$(whoami)"
+    fi
+}
+
 function setup_dotfiles() {
 	print_step "setup_dotfiles()"
-	arch-chroot /mnt bash -c "mkdir -p /home/$USER_NAME/Documents/code"
-	arch-chroot /mnt bash -c "mkdir -p /home/$USER_NAME/.config/nvim"
-	arch-chroot /mnt bash -c "mkdir -p /home/$USER_NAME/.config/alacritty"
-	arch-chroot /mnt bash -c "cd /home/$USER_NAME/Documents/code && git clone https://github.com/pierrechevalier83/dotfiles"
-	arch-chroot /mnt bash -c "ln -s /home/$USER_NAME/Documents/code/dotfiles/git/.gitconfig /home/$USER_NAME/.gitconfig"
-	arch-chroot /mnt bash -c "ln -s /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /home/$USER_NAME/.zshrc"
-	arch-chroot /mnt bash -c "ln -s /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /root/.zshrc"
-	arch-chroot /mnt bash -c "ln -s /home/$USER_NAME/Documents/code/dotfiles/neovim/init.vim /home/$USER_NAME/.config/nvim/init.vim"
-	arch-chroot /mnt bash -c "curl -fLo /home/$USER_NAME/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-	arch-chroot /mnt bash -c "ln -s /home/$USER_NAME/Documents/code/dotfiles/alacritty/alacritty.yml /home/$USER_NAME/.config/alacritty/alacritty.yml"
+	execute_user "mkdir -p /home/$USER_NAME/Documents/code"
+	execute_user "mkdir -p /home/$USER_NAME/.config/nvim"
+	execute_user "mkdir -p /home/$USER_NAME/.config/alacritty"
+	execute_user "cd /home/$USER_NAME/Documents/code && git clone https://github.com/pierrechevalier83/dotfiles"
+	execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/git/.gitconfig /home/$USER_NAME/.gitconfig"
+	execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /home/$USER_NAME/.zshrc"
+	execute_sudo "ln -s /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /root/.zshrc"
+	execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/neovim/init.vim /home/$USER_NAME/.config/nvim/init.vim"
+	execute_user "curl -fLo /home/$USER_NAME/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+	execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/alacritty/alacritty.yml /home/$USER_NAME/.config/alacritty/alacritty.yml"
+}
+
+function execute_sudo() {
+    COMMAND="$1"
+    if [ "$SYSTEM_INSTALLATION" == "true" ]; then
+        arch-chroot /mnt bash -c "$COMMAND"
+    else
+        bash -c "sudo $COMMAND"
+    fi
+}
+
+function execute_user() {
+    COMMAND="$1"
+    if [ "$SYSTEM_INSTALLATION" == "true" ]; then
+        arch-chroot /mnt bash -c "su $USER_NAME -s /usr/bin/bash -c \"$COMMAND\""
+    else
+        bash -c "$COMMAND"
+    fi
 }
 
 function end() {
@@ -50,7 +85,7 @@ function execute_step() {
 }
 
 function main() {
-    ALL_STEPS=("configuration_install setup_dotfiles end")
+    ALL_STEPS=("configuration_install facts setup_dotfiles end")
     STEP="configuration_install"
 
     if [ -n "$1" ]; then
@@ -72,6 +107,7 @@ function main() {
     done
 
     execute_step "configuration_install" "${STEPS}"
+    execute_step "facts" "${STEPS}"
     execute_step "setup_dotfiles" "${STEPS}"
     execute_step "end" "${STEPS}"
 }
