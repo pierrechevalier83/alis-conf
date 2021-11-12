@@ -1,0 +1,60 @@
+[org/gnome/desktop/background]
+picture-options='zoom'
+picture-uri='file:///usr/share/backgrounds/gnome/LightBulb.jpg'
+primary-color='#ffffff'
+secondary-color='#000000'
+
+[org/gnome/desktop/interface]
+clock-show-weekday=true
+document-font-name='Hack Nerd Font 11'
+font-antialiasing='grayscale'
+font-hinting='slight'
+font-name='Hack Nerd Font 11'
+gtk-im-module='ibus'
+gtk-theme='Arc-Dark'
+icon-theme='Arc'
+monospace-font-name='Hack Nerd Font Mono 10'
+show-battery-percentage=true
+
+[org/gnome/desktop/peripherals/touchpad]
+natural-scroll=false
+tap-to-click=true
+two-finger-scrolling-enabled=true
+
+[org/gnome/desktop/screensaver]
+picture-options='zoom'
+picture-uri='file:///usr/share/backgrounds/gnome/LightBulb.jpg'
+primary-color='#ffffff'
+secondary-color='#000000'
+
+[org/gnome/desktop/wm/keybindings]
+close=['<Super>q']
+
+[org/gnome/desktop/wm/preferences]
+focus-mode='sloppy'
+titlebar-font='Hack Nerd Font Bold 11'
+
+[org/gnome/mutter]
+workspaces-only-on-primary=false
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Super>Return'
+command='alacritty'
+name='alacritty'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1]
+binding='<Super>f'
+command='firefox'
+name='firefox'
+
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-timeout=5400
+
+[org/gnome/shell]
+favorite-apps=['Alacritty.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'gnome-control-center.desktop', 'org.gnome.Music.desktop', 'org.gnome.Software.desktop']
+had-bluetooth-devices-setup=true
+welcome-dialog-last-shown-version='41.1'
+
+[org/gnome/tweaks]
+show-extensions-notice=false
