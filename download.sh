@@ -31,3 +31,4 @@ curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/templates/
 
 # Configure this particular environment
 chmod +x configure.sh
+chmod +x post_install.sh
