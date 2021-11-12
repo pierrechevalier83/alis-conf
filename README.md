@@ -1,22 +1,18 @@
 # alis-conf
 Custom installation config for [alis](https://github.com/picodotdev/alis)
 
-## Download
-To download, go to the folder where alis is cloned/downloaded to and run
+## Usage
 
+* Download alis from upstream and its configuration from this repo and configure it
 ```
 curl -sL https://raw.githubusercontent.com/pierrechevalier83/alis-conf/main/download.sh | bash
 ```
-
-## Usage
-To use the config, clone the repo, update it with your own config for alis and run:
-
+* Check `alis.conf` and `alis-packages.conf` look good, edit them as desired
+* Install Arch Linux
 ```
-./download.sh
+./alis.sh
 ```
-After `download.sh` finish downloading the necessary scripts, run:
-
+* Reboot into the fancy new installation
 ```
-./configure.sh
+./alis-reboot.sh
 ```
-This script will be applying your custom config and ask you about root and user passwords
