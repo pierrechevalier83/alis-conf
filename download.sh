@@ -23,4 +23,3 @@ curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/configure.
 
 # Configure this particular environment
 chmod +x configure.sh
-./configure.sh

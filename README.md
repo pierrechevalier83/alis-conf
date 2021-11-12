@@ -7,6 +7,10 @@ Custom installation config for [alis](https://github.com/picodotdev/alis)
 ```
 curl -sL https://raw.githubusercontent.com/pierrechevalier83/alis-conf/main/download.sh | bash
 ```
+* Configure the config files for alis
+```
+./configure.sh
+```
 * Check `alis.conf` and `alis-packages.conf` look good, edit them as desired
 * Install Arch Linux
 ```
