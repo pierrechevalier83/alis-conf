@@ -43,6 +43,18 @@ function setup_dotfiles() {
 	execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/alacritty/alacritty.yml /home/$USER_NAME/.config/alacritty/alacritty.yml"
 }
 
+function configure_gnome() {
+	print_step "configure_gnome()"
+	cp templates/dconf*.settings /mnt/home/$USER_NAME/
+	execute_user "dconf load / < /home/$USER_NAME/dconf.settings"
+    if [ "$MACHINE" == "T14" ]; then
+        execute_user "dconf load / < /home/$USER_NAME/dconf.T14.settings"
+    elif [ "$MACHINE" == "chromebook" ]; then
+        execute_user "dconf load / < /home/$USER_NAME/dconf.chromebook.settings"
+    fi
+	rm /mnt/home/$USER_NAME/dconf*.settings
+}
+
 function execute_sudo() {
     COMMAND="$1"
     if [ "$SYSTEM_INSTALLATION" == "true" ]; then
@@ -85,7 +97,7 @@ function execute_step() {
 }
 
 function main() {
-    ALL_STEPS=("configuration_install facts setup_dotfiles end")
+    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome end")
     STEP="configuration_install"
 
     if [ -n "$1" ]; then
@@ -109,6 +121,7 @@ function main() {
     execute_step "configuration_install" "${STEPS}"
     execute_step "facts" "${STEPS}"
     execute_step "setup_dotfiles" "${STEPS}"
+    execute_step "configure_gnome" "${STEPS}"
     execute_step "end" "${STEPS}"
 }
 

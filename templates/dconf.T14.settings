@@ -1,0 +1,34 @@
+[org/gnome/desktop/input-sources]
+per-window=false
+sources=[('xkb', 'us')]
+xkb-options=['lv3:ralt_switch', 'caps:super', 'compose:ralt']
+
+[org/gnome/desktop/wm/keybindings]
+toggle-fullscreen=['F7']
+
+[org/gnome/settings-daemon/plugins/media-keys]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5/']
+volume-down=['F2']
+volume-mute=['F4']
+volume-up=['F3']
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2]
+binding='F5'
+command='brightnessctl -c backlight set 2%-'
+name='brightness down'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3]
+binding='F6'
+command='brightnessctl -c backlight set 2%+'
+name='brightness up'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4]
+binding='<Super>F5'
+command='brightnessctl -d *::kbd_backlight set 10%-'
+name='brightness down (keyboard)'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5]
+binding='<Super>F6'
+command='brightnessctl -d *::kbd_backlight set 10%+'
+name='brightness up (keyboard)'
+
