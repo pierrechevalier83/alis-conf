@@ -46,10 +46,13 @@ function setup_dotfiles() {
 function configure_gnome() {
 	print_step "configure_gnome()"
 	cp templates/dconf*.settings /mnt/home/$USER_NAME/
+    execute_sudo "chown $USER_NAME /home/$USER_NAME/dconf.settings"
 	execute_user "dconf load / < /home/$USER_NAME/dconf.settings"
     if [ "$MACHINE" == "T14" ]; then
+        execute_sudo "chown $USER_NAME /home/$USER_NAME/dconf.T14.settings"
         execute_user "dconf load / < /home/$USER_NAME/dconf.T14.settings"
     elif [ "$MACHINE" == "chromebook" ]; then
+        execute_sudo "chown $USER_NAME /home/$USER_NAME/dconf.chromebook.settings"
         execute_user "dconf load / < /home/$USER_NAME/dconf.chromebook.settings"
     fi
 	rm /mnt/home/$USER_NAME/dconf*.settings
