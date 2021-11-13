@@ -30,15 +30,15 @@ function facts() {
 }
 
 function clone_alis_conf_repo() {
-	print_step "clone_alis_conf_repo()"
-	execute_user "mkdir -p /home/$USER_NAME/Documents/code"
-	execute_user "cd /home/$USER_NAME/Documents/code && git clone https://github.com/pierrechevalier83/alis-conf"
+    print_step "clone_alis_conf_repo()"
+    execute_user "mkdir -p /home/$USER_NAME/Documents/code"
+    execute_user "cd /home/$USER_NAME/Documents/code && git clone https://github.com/pierrechevalier83/alis-conf"
 }
 
 function copy_alis_config_file() {
-	print_step "copy_alis_config_file()"
-	cp alis.conf /mnt/home/Documents/code/$USER_NAME/
-    execute_sudo "chown $USER_NAME /home/Documents/code/$USER_NAME/alis.conf"
+    print_step "copy_alis_config_file()"
+    cp alis.conf /mnt/home/$USER_NAME/Documents/code/
+    execute_sudo "chown $USER_NAME /home/$USER_NAME/Documents/code/alis.conf"
 }
 
 function execute_sudo() {
