@@ -34,7 +34,7 @@ function setup_dotfiles() {
     mkdir -p /home/$USER_NAME/Documents/code
     mkdir -p /home/$USER_NAME/.config/nvim
     mkdir -p /home/$USER_NAME/.config/alacritty
-    cd /home/$USER_NAME/Documents/code && rm -rf dotfiles && git clone https://github.com/pierrechevalier83/dotfiles
+    cd /home/$USER_NAME/Documents/code && rm -rf dotfiles && git clone https://github.com/pierrechevalier83/dotfiles && cd -
     ln -sf /home/$USER_NAME/Documents/code/dotfiles/git/.gitconfig /home/$USER_NAME/.gitconfig
     ln -sf /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /home/$USER_NAME/.zshrc
     sudo ln -sf /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /root/.zshrc
