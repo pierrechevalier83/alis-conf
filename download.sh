@@ -2,7 +2,7 @@
 set -e
 
 # Get alis
-curl -sL https://raw.githubusercontent.com/picodotdev/alis/master/download.sh | bash
+curl -sL https://raw.githubusercontent.com/pierrechevalier83/alis/master/download.sh | bash
 
 # Get my custom configs
 GITHUB_USER=pierrechevalier83
