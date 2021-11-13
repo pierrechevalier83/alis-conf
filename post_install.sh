@@ -30,30 +30,29 @@ function facts() {
 }
 
 function setup_dotfiles() {
-	print_step "setup_dotfiles()"
-	execute_user "mkdir -p /home/$USER_NAME/Documents/code"
-	execute_user "mkdir -p /home/$USER_NAME/.config/nvim"
-	execute_user "mkdir -p /home/$USER_NAME/.config/alacritty"
-	execute_user "cd /home/$USER_NAME/Documents/code && git clone https://github.com/pierrechevalier83/dotfiles"
-	execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/git/.gitconfig /home/$USER_NAME/.gitconfig"
-	execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /home/$USER_NAME/.zshrc"
-	execute_sudo "ln -s /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /root/.zshrc"
-	execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/neovim/init.vim /home/$USER_NAME/.config/nvim/init.vim"
-	execute_user "curl -fLo /home/$USER_NAME/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-	execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/alacritty/alacritty.yml /home/$USER_NAME/.config/alacritty/alacritty.yml"
+    print_step "setup_dotfiles()"
+    execute_user "mkdir -p /home/$USER_NAME/Documents/code"
+    execute_user "mkdir -p /home/$USER_NAME/.config/nvim"
+    execute_user "mkdir -p /home/$USER_NAME/.config/alacritty"
+    execute_user "cd /home/$USER_NAME/Documents/code && git clone https://github.com/pierrechevalier83/dotfiles"
+    execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/git/.gitconfig /home/$USER_NAME/.gitconfig"
+    execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /home/$USER_NAME/.zshrc"
+    execute_sudo "ln -s /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /root/.zshrc"
+    execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/neovim/init.vim /home/$USER_NAME/.config/nvim/init.vim"
+    execute_user "curl -fLo /home/$USER_NAME/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    execute_user "ln -s /home/$USER_NAME/Documents/code/dotfiles/alacritty/alacritty.yml /home/$USER_NAME/.config/alacritty/alacritty.yml"
 }
 
 function configure_gnome() {
-	print_step "configure_gnome()"
-	cp dconf*.settings /mnt/home/$USER_NAME/
-    execute_sudo "chown $USER_NAME /home/$USER_NAME/dconf.settings"
+    print_step "configure_gnome()"
+    execute_user "cp ./templates/dconf.settings ."
     if [ "$MACHINE" == "chromebook" ]; then
-        execute_user "cat /home/$USER_NAME/dconf.chromebook.settings >> /home/$USER_NAME/dconf.settings"
+        execute_user "cat ./templates/dconf.chromebook.settings >> ./dconf.settings"
     elif [ "$MACHINE" == "T14" ]; then
-        execute_user "cat /home/$USER_NAME/dconf.T14.settings >> /home/$USER_NAME/dconf.settings"
+        execute_user "cat ./templates/dconf.T14.settings >> ./dconf.settings"
     fi
-	rm /mnt/home/$USER_NAME/dconf.chromebook.settings
-	rm /mnt/home/$USER_NAME/dconf.T14.settings
+    dconf load / < ./dconf.settings
+    rm ./dconf.settings
 }
 
 function execute_sudo() {
