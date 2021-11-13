@@ -62,7 +62,7 @@ function execute_user() {
 function end() {
     echo ""
     echo -e "${GREEN}Post install script successfully setup on installed system"'!'"${NC}"
-    echo -e "${GREEN}On first boot, `cd ~/Documents/code/alis-conf; ./post_install.sh` to perform final configuration steps"'!'"${NC}"
+    echo -e "${GREEN}On first boot, cd ~/Documents/code/alis-conf and run ./post_install.sh to perform final configuration steps"'!'"${NC}"
     echo ""
 }
 
