@@ -83,7 +83,14 @@ function setup_mirror_upgrade_hook() {
 
 function setup_btrfs_snapshots() {
 	print_step "setup_btrfs_snapshots()"
+	sudo umount /.snapshots
+	sudo rm -r /.snapshots
 	sudo snapper -c root create-config /
+	sudo btrfs subvolume delete /.snapshots
+	sudo mkdir /.snapshots
+	sudo sed -i "s|\t/snapshots|\t/.snapshots|g" /etc/fstab
+	sudo mount -a
+	sudo chmod 750 /.snapshots
 	sudo sed -i "s|ALLOW_USERS=\"\"|ALLOW_USERS=\"$USER_NAME\"|g" /etc/snapper/configs/root
 	sudo cp templates/50-bootbackup.hook /etc/pacman.d/hooks/50-bootbackup.hook
 	sudo sed -i "s|subvol_main = @|subvol_main = /root|g" /etc/snapper-rollback.conf
