@@ -1,2 +1,15 @@
+alis.sh
+alis-asciinema.sh
+alis-packages.sh
+alis-packages-asciinema.sh
+alis-reboot.sh
+alis-recovery.sh
+alis-recovery-reboot.sh
+alis-recovery-asciinema.sh
 alis.conf
-alis_packages.conf
+alis.conf.bak
+alis-packages.conf
+alis-packages.conf.bak
+alis-recovery.conf
+
+
