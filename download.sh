@@ -13,6 +13,7 @@ rm -f alis_custom.chromebook.conf
 rm -f alis_custom.T14.conf
 rm -f alis_package_custom.sh
 rm -f configure.sh
+rm -f copy_post_install_script.sh
 rm -f post_install.sh
 rm -f dconf.settings
 rm -f dconf.chromebook.settings
@@ -24,6 +25,7 @@ curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/alis_custo
 curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/alis_custom.T14.conf
 curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/alis_packages_custom.conf
 curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/configure.sh
+curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/copy_post_install_script.sh
 curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/post_install.sh
 curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/templates/dconf.settings
 curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/templates/dconf.chromebook.settings
@@ -31,4 +33,5 @@ curl -O https://raw.githubusercontent.com/$GITHUB_USER/alis-conf/main/templates/
 
 # Configure this particular environment
 chmod +x configure.sh
+chmod +x copy_post_install_script.sh
 chmod +x post_install.sh

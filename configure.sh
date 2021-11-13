@@ -131,12 +131,12 @@ else
 echo "Unknown machine!"
 fi
 
+source alis.conf
+
 if ask "Is this a VM?"; then
 mv alis.conf alis.conf.bak
 awk -F= '!a[$1]++' alis_custom.vm.conf alis.conf.bak > alis.conf
 fi
-
-optional_firmware="mkinitcpio-firmware"
 
 # Wifi network
 wifi_essid=$(enter_variable " - Wifi Network?", $WIFI_ESSID)
