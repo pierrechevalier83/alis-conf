@@ -57,6 +57,16 @@ function configure_gnome() {
     rm dconf.settings
 }
 
+function configure_gdm() {
+    print_step "configure_gdm()"
+	sudo mkdir -p /etc/dconf/profile/gdm
+	sudo cp template/gdm /etc/dconf/profile/gdm
+    sudo mkdir -p /etc/dconf/db/gdm.d
+	sudo cp templates/06-tap-to-click /etc/dconf/db/gdm.d/06-tap-to-click
+	sudo dconf update
+}
+
+
 function setup_etc_hosts() {
     print_step "setup_etc_hosts()"
 	cp templates/hosts .
@@ -66,9 +76,15 @@ function setup_etc_hosts() {
 }
 
 function setup_mirror_upgrade_hook() {
-    print_step "setup_etc_hosts()"
+    print_step "setup_mirror_upgrade_hook()"
 	sudo mkdir -p /etc/pacman.d/hooks
 	sudo cp templates/mirrorupgrade.hook /etc/pacman.d/hooks/mirrorupgrade.hook
+}
+
+function setup_rust() {
+	print_step "setup_rust()"
+	rustup install nightly stable
+	rustup default stable
 }
 
 function execute_sudo() {
@@ -113,7 +129,7 @@ function execute_step() {
 }
 
 function main() {
-    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome setup_etc_hosts setup_mirror_upgrade_hook end")
+    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome configure_gdm setup_etc_hosts setup_mirror_upgrade_hook end")
     STEP="configuration_install"
 
     if [ -n "$1" ]; then
@@ -138,8 +154,10 @@ function main() {
     execute_step "facts" "${STEPS}"
     execute_step "setup_dotfiles" "${STEPS}"
     execute_step "configure_gnome" "${STEPS}"
+    execute_step "configure_gdm" "${STEPS}"
     execute_step "setup_etc_hosts" "${STEPS}"
     execute_step "setup_mirror_upgrade_hook" "${STEPS}"
+    #execute_step "setup_rust" "${STEPS}"
     execute_step "end" "${STEPS}"
 }
 
