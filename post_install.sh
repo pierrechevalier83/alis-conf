@@ -31,30 +31,37 @@ function facts() {
 
 function setup_dotfiles() {
     print_step "setup_dotfiles()"
-    execute_user "mkdir -p /home/$USER_NAME/Documents/code"
-    execute_user "mkdir -p /home/$USER_NAME/.config/nvim"
-    execute_user "mkdir -p /home/$USER_NAME/.config/alacritty"
-    execute_user "cd /home/$USER_NAME/Documents/code && rm -rf dotfiles && git clone https://github.com/pierrechevalier83/dotfiles"
-    execute_user "ln -sf /home/$USER_NAME/Documents/code/dotfiles/git/.gitconfig /home/$USER_NAME/.gitconfig"
-    execute_user "ln -sf /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /home/$USER_NAME/.zshrc"
-    execute_sudo "ln -sf /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /root/.zshrc"
-    execute_user "ln -sf /home/$USER_NAME/Documents/code/dotfiles/neovim/init.vim /home/$USER_NAME/.config/nvim/init.vim"
-    execute_user "curl -fLo /home/$USER_NAME/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-    execute_user "nvim +PlugInstall +UpdateRemotePlugins +qall"
-    execute_user "nvim +CocInstall coc-rust-analyzer +qall"
-    execute_user "ln -sf /home/$USER_NAME/Documents/code/dotfiles/alacritty/alacritty.yml /home/$USER_NAME/.config/alacritty/alacritty.yml"
+    mkdir -p /home/$USER_NAME/Documents/code
+    mkdir -p /home/$USER_NAME/.config/nvim
+    mkdir -p /home/$USER_NAME/.config/alacritty
+    cd /home/$USER_NAME/Documents/code && rm -rf dotfiles && git clone https://github.com/pierrechevalier83/dotfiles
+    ln -sf /home/$USER_NAME/Documents/code/dotfiles/git/.gitconfig /home/$USER_NAME/.gitconfig
+    ln -sf /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /home/$USER_NAME/.zshrc
+    sudo ln -sf /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /root/.zshrc
+    ln -sf /home/$USER_NAME/Documents/code/dotfiles/neovim/init.vim /home/$USER_NAME/.config/nvim/init.vim
+    curl -fLo /home/$USER_NAME/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    nvim +PlugInstall +UpdateRemotePlugins +qall
+    nvim +CocInstall coc-rust-analyzer +qall
+    ln -sf /home/$USER_NAME/Documents/code/dotfiles/alacritty/alacritty.yml /home/$USER_NAME/.config/alacritty/alacritty.yml
 }
 
 function configure_gnome() {
     print_step "configure_gnome()"
-    execute_user "cp ./templates/dconf.settings ."
+    cp ./templates/dconf.settings .
     if [ "$MACHINE" == "chromebook" ]; then
-        execute_user "cat ./templates/dconf.chromebook.settings >> ./dconf.settings"
+        cat ./templates/dconf.chromebook.settings >> ./dconf.settings
     elif [ "$MACHINE" == "T14" ]; then
-        execute_user "cat ./templates/dconf.T14.settings >> ./dconf.settings"
+        cat ./templates/dconf.T14.settings >> ./dconf.settings
     fi
     dconf load / < ./dconf.settings
     rm ./dconf.settings
+}
+
+function setup_etc_hosts() {
+    print_step "setup_etc_hosts()"
+	cp templates/hosts .
+	sed -i "s/HOSTNAME/$HOSTNAME/g" hosts
+	sudo cp hosts /etc/hosts
 }
 
 function execute_sudo() {
@@ -99,7 +106,7 @@ function execute_step() {
 }
 
 function main() {
-    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome end")
+    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome setup_etc_hosts end")
     STEP="configuration_install"
 
     if [ -n "$1" ]; then
@@ -124,6 +131,7 @@ function main() {
     execute_step "facts" "${STEPS}"
     execute_step "setup_dotfiles" "${STEPS}"
     execute_step "configure_gnome" "${STEPS}"
+    execute_step "setup_etc_hosts" "${STEPS}"
     execute_step "end" "${STEPS}"
 }
 
