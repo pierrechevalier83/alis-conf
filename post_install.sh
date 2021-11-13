@@ -62,6 +62,13 @@ function setup_etc_hosts() {
 	cp templates/hosts .
 	sed -i "s/HOSTNAME/$HOSTNAME/g" hosts
 	sudo cp hosts /etc/hosts
+	rm hosts
+}
+
+function setup_mirror_upgrade_hook() {
+    print_step "setup_etc_hosts()"
+	sudo mkdir -p /etc/pacman.d/hooks
+	sudo cp templates/mirrorupgrade.hook /etc/pacman.d/hooks/mirrorupgrade.hook
 }
 
 function execute_sudo() {
@@ -106,7 +113,7 @@ function execute_step() {
 }
 
 function main() {
-    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome setup_etc_hosts end")
+    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome setup_etc_hosts setup_mirror_upgrade_hook end")
     STEP="configuration_install"
 
     if [ -n "$1" ]; then
@@ -132,6 +139,7 @@ function main() {
     execute_step "setup_dotfiles" "${STEPS}"
     execute_step "configure_gnome" "${STEPS}"
     execute_step "setup_etc_hosts" "${STEPS}"
+    execute_step "setup_mirror_upgrade_hook" "${STEPS}"
     execute_step "end" "${STEPS}"
 }
 
