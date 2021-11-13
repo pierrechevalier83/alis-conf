@@ -47,14 +47,14 @@ function setup_dotfiles() {
 
 function configure_gnome() {
     print_step "configure_gnome()"
-    cp ./templates/dconf.settings .
+    cp templates/dconf.settings .
     if [ "$MACHINE" == "chromebook" ]; then
-        cat ./templates/dconf.chromebook.settings >> ./dconf.settings
+        cat templates/dconf.chromebook.settings >> dconf.settings
     elif [ "$MACHINE" == "T14" ]; then
-        cat ./templates/dconf.T14.settings >> ./dconf.settings
+        cat templates/dconf.T14.settings >> dconf.settings
     fi
-    dconf load / < ./dconf.settings
-    rm ./dconf.settings
+    dconf load / < dconf.settings
+    rm dconf.settings
 }
 
 function setup_etc_hosts() {
