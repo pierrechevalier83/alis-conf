@@ -40,6 +40,8 @@ function setup_dotfiles() {
     execute_sudo "ln -sf /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /root/.zshrc"
     execute_user "ln -sf /home/$USER_NAME/Documents/code/dotfiles/neovim/init.vim /home/$USER_NAME/.config/nvim/init.vim"
     execute_user "curl -fLo /home/$USER_NAME/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    execute_user "nvim +PlugInstall +UpdateRemotePlugins +qall"
+    execute_user "nvim +CocInstall coc-rust-analyzer +qall"
     execute_user "ln -sf /home/$USER_NAME/Documents/code/dotfiles/alacritty/alacritty.yml /home/$USER_NAME/.config/alacritty/alacritty.yml"
 }
 
