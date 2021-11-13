@@ -60,7 +60,7 @@ function configure_gnome() {
 function configure_gdm() {
     print_step "configure_gdm()"
 	sudo mkdir -p /etc/dconf/profile/gdm
-	sudo cp template/gdm /etc/dconf/profile/gdm
+	sudo cp templates/gdm /etc/dconf/profile/gdm
     sudo mkdir -p /etc/dconf/db/gdm.d
 	sudo cp templates/06-tap-to-click /etc/dconf/db/gdm.d/06-tap-to-click
 	sudo dconf update
@@ -79,6 +79,15 @@ function setup_mirror_upgrade_hook() {
     print_step "setup_mirror_upgrade_hook()"
 	sudo mkdir -p /etc/pacman.d/hooks
 	sudo cp templates/mirrorupgrade.hook /etc/pacman.d/hooks/mirrorupgrade.hook
+}
+
+function setup_btrfs_snapshots() {
+	print_step "setup_btrfs_snapshots()"
+	sudo snapper -c root create-config /
+	sudo cp templates/50-bootbackup.hook /etc/pacman.d/hooks/50-bootbackup.hook
+	sudo sed -i "s|subvol_main = @|subvol_main = /root|g" /etc/snapper-rollback.conf
+	sudo sed -i "s|subvol_main = @snapshots|subvol_main = /snapshots|g" /etc/snapper-rollback.conf
+	sudo sed -i "s|#dev = /dev/sda42|dev = /dev/mapper/cryptroot|g" /etc/snapper-rollback.conf
 }
 
 function setup_rust() {
@@ -129,7 +138,7 @@ function execute_step() {
 }
 
 function main() {
-    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome configure_gdm setup_etc_hosts setup_mirror_upgrade_hook end")
+    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome configure_gdm setup_etc_hosts setup_mirror_upgrade_hook setup_btrfs_snapshots end")
     STEP="configuration_install"
 
     if [ -n "$1" ]; then
@@ -157,6 +166,7 @@ function main() {
     execute_step "configure_gdm" "${STEPS}"
     execute_step "setup_etc_hosts" "${STEPS}"
     execute_step "setup_mirror_upgrade_hook" "${STEPS}"
+    execute_step "setup_btrfs_snapshots" "${STEPS}"
     #execute_step "setup_rust" "${STEPS}"
     execute_step "end" "${STEPS}"
 }
