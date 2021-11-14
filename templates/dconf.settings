@@ -31,6 +31,7 @@ secondary-color='#000000'
 close=['<Super>q']
 move-to-workspace-left=['<Primary><Shift><Alt>Up']
 move-to-workspace-right=['<Primary><Shift><Alt>Down']
+switch-to-workspace-down=@as []
 switch-to-workspace-left=['<Primary><Alt>Up']
 switch-to-workspace-right=['<Primary><Alt>Down']
 
