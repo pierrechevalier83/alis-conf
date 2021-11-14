@@ -34,6 +34,10 @@ function setup_dotfiles() {
     mkdir -p /home/$USER_NAME/Documents/code
     mkdir -p /home/$USER_NAME/.config/nvim
     mkdir -p /home/$USER_NAME/.config/alacritty
+    mkdir -p /home/$USER_NAME/.config/sway
+    mkdir -p /home/$USER_NAME/.config/swaynag
+    mkdir -p /home/$USER_NAME/.config/waybar
+    mkdir -p /home/$USER_NAME/.config/workstyle
     cd /home/$USER_NAME/Documents/code && rm -rf dotfiles && git clone https://github.com/pierrechevalier83/dotfiles && cd -
     ln -sf /home/$USER_NAME/Documents/code/dotfiles/git/.gitconfig /home/$USER_NAME/.gitconfig
     ln -sf /home/$USER_NAME/Documents/code/dotfiles/zsh/.zshrc /home/$USER_NAME/.zshrc
@@ -43,6 +47,12 @@ function setup_dotfiles() {
     nvim +PlugInstall +UpdateRemotePlugins +qall
     nvim +CocInstall coc-rust-analyzer +qall
     ln -sf /home/$USER_NAME/Documents/code/dotfiles/alacritty/alacritty.yml /home/$USER_NAME/.config/alacritty/alacritty.yml
+    ln -sf /home/$USER_NAME/Documents/code/dotfiles/sway/.config/sway/config /home/$USER_NAME/.config/sway/config
+    ln -sf /home/$USER_NAME/Documents/code/dotfiles/sway/.config/swaynag/config /home/$USER_NAME/.config/swaynag/config
+    ln -sf /home/$USER_NAME/Documents/code/dotfiles/sway/.config/waybar/config /home/$USER_NAME/.config/waybar/config
+    ln -sf /home/$USER_NAME/Documents/code/dotfiles/sway/.config/waybar/style.css /home/$USER_NAME/.config/waybar/style.css
+    ln -sf /home/$USER_NAME/Documents/code/dotfiles/sway/.config/workstyle/config.toml /home/$USER_NAME/.config/workstyle/config.toml
+	cp /usr/share/backgrounds/gnome/LightBulb.jpg /home/$USER_NAME/Pictures/wallpaper.jpg
 }
 
 function configure_gnome() {
@@ -98,6 +108,8 @@ function setup_btrfs_snapshots() {
 
 function setup_rust() {
 	print_step "setup_rust()"
+	sudo pacman -R rust
+	sudo pacman -S rustup
 	rustup install nightly stable
 	rustup default stable
 }
@@ -144,7 +156,7 @@ function execute_step() {
 }
 
 function main() {
-    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome configure_gdm setup_etc_hosts setup_mirror_upgrade_hook setup_btrfs_snapshots end")
+    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome configure_gdm setup_etc_hosts setup_mirror_upgrade_hook setup_btrfs_snapshots setup_rust end")
     STEP="configuration_install"
 
     if [ -n "$1" ]; then
@@ -173,7 +185,7 @@ function main() {
     execute_step "setup_etc_hosts" "${STEPS}"
     execute_step "setup_mirror_upgrade_hook" "${STEPS}"
     execute_step "setup_btrfs_snapshots" "${STEPS}"
-    #execute_step "setup_rust" "${STEPS}"
+    execute_step "setup_rust" "${STEPS}"
     execute_step "end" "${STEPS}"
 }
 
