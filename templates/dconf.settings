@@ -29,6 +29,7 @@ secondary-color='#000000'
 
 [org/gnome/desktop/wm/keybindings]
 close=['<Super>q']
+move-to-workspace-down=@as []
 move-to-workspace-left=['<Primary><Shift><Alt>Up']
 move-to-workspace-right=['<Primary><Shift><Alt>Down']
 switch-to-workspace-down=@as []
