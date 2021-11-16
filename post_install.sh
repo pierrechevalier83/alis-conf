@@ -91,6 +91,10 @@ function setup_mirror_upgrade_hook() {
 	sudo cp templates/mirrorupgrade.hook /etc/pacman.d/hooks/mirrorupgrade.hook
 }
 
+function i_love_candy() {
+	sudo sed -i "s/#NoProgressBar/ILoveCandy/g" /etc/pacman.conf
+}
+
 function setup_btrfs_snapshots() {
 	print_step "setup_btrfs_snapshots()"
 	sudo snapper -c root create-config /
@@ -156,7 +160,7 @@ function execute_step() {
 }
 
 function main() {
-    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome configure_gdm setup_etc_hosts setup_mirror_upgrade_hook setup_btrfs_snapshots setup_rust end")
+    ALL_STEPS=("configuration_install facts setup_dotfiles configure_gnome configure_gdm setup_etc_hosts setup_mirror_upgrade_hook i_love_candy setup_btrfs_snapshots setup_rust end")
     STEP="configuration_install"
 
     if [ -n "$1" ]; then
@@ -184,6 +188,7 @@ function main() {
     execute_step "configure_gdm" "${STEPS}"
     execute_step "setup_etc_hosts" "${STEPS}"
     execute_step "setup_mirror_upgrade_hook" "${STEPS}"
+    execute_step "i_love_candy" "${STEPS}"
     execute_step "setup_btrfs_snapshots" "${STEPS}"
     execute_step "setup_rust" "${STEPS}"
     execute_step "end" "${STEPS}"
